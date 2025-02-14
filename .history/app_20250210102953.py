@@ -1,4 +1,3 @@
-
 import streamlit as st
 from PIL import Image
 import datetime
@@ -16,7 +15,7 @@ from transformers import pipeline
 load_dotenv()
 
 # Configuration de la page
-st.set_page_config(page_title="GeoSearch", page_icon="\U0001F30D", layout="wide")
+st.set_page_config(page_title="GeoSearch", page_icon="🌍", layout="wide")
 
 # Styles CSS personnalisés
 st.markdown(
@@ -24,6 +23,7 @@ st.markdown(
     <style>
     .main {
         background-color: #000000;
+        color: white; /* Set default text color to white */
     }
     .stButton>button {
         background-color: #4CAF50;
@@ -38,6 +38,7 @@ st.markdown(
         border: 1px solid #555555;
         border-radius: 5px;
         margin-bottom: 10px;
+        color: white; /* Ensure text color is white */
     }
     .stExpander .st-cb {
         color: white !important;
@@ -101,7 +102,6 @@ def faiss_search(query, top_k=5):
             hf_embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
             query_vector = hf_embeddings.embed_query(query)
             distances, indices = faiss_index.search(np.array([query_vector], dtype="float32"), top_k)
-            st.write(f"Indices FAISS trouvés : {indices}")
             with open(METADATA_FILE, "r", encoding="utf-8") as f:
                 metadata = json.load(f)
             for idx in indices[0]:
@@ -112,17 +112,15 @@ def faiss_search(query, top_k=5):
                     })
                 else:
                     st.warning(f"Index FAISS invalide : {idx}")
-            st.write(f"Nombre de documents FAISS trouvés : {len(faiss_docs)}")
         except Exception as e:
             st.error(f"Erreur lors de la recherche FAISS : {e}")
     return faiss_docs
 
 # Barre latérale
 st.sidebar.image("C:\\Users\\ec\\OneDrive\\Bureau\\Generative_IA\\Projet_Generative_IA\\IM3.png", width=200)
-st.sidebar.title("GeoSearch \U0001F30D")
+st.sidebar.title("GeoSearch 🌍")
 st.sidebar.markdown("Un moteur de recherche innovant pour les sciences géospatiales.")
-
-menu = ["Accueil", "Visualisation géospatiale", "Recherche avancée", "Statistiques", "À propos"]
+menu = ["Accueil", "Visualisation géospatiale", "Statistiques", "À propos"]
 choice = st.sidebar.selectbox("Navigation", menu)
 
 if choice == "Accueil":
@@ -130,23 +128,23 @@ if choice == "Accueil":
     st.markdown(
         """
         **GeoSearch** est une plateforme collaborative de pointe pour les sciences géospatiales.
-        
+
         ### Fonctionnalités principales:
-        - \U0001F50D Recherche avancée dans des sources scientifiques
-        - \U0001F5FA\ufe0f Visualisation de données géospatiales
-        - \U0001F4CA Analyse statistique des résultats
-        - \U0001F91D Collaboration entre chercheurs et professionnels
-        
+        - 🔍 Recherche avancée dans des sources scientifiques
+        - 🌍 Visualisation de données géospatiales
+        - 📊 Analyse statistique des résultats
+        - 🤝 Collaboration entre chercheurs et professionnels
+
         Commencez votre exploration dès maintenant!
         """
     )
     st.image("D:\\Img.png", caption="Analyse géospatiale avancée")
 
 elif choice == "Visualisation géospatiale":
-    st.title("Visualisation géospatiale avancée \U0001F30E")
-    
+    st.title("Visualisation géospatiale avancée 🌍")
+
     map_type = st.selectbox("Choisissez un type de carte :", list(MAP_PATHS.keys()))
-    
+
     if st.button("Afficher la carte", key="show_map"):
         map_path = MAP_PATHS.get(map_type)
         if map_path and os.path.exists(map_path):
@@ -154,7 +152,7 @@ elif choice == "Visualisation géospatiale":
                 with open(map_path, "r", encoding="utf-8") as f:
                     html_content = f.read()
                 st.components.v1.html(html_content, height=600, width=None, scrolling=True)
-                
+
                 if map_type == "Carte interactive du monde":
                     st.info("Cette carte interactive vous permet d'explorer différentes régions du monde en temps réel.")
                 elif map_type == "Cartographie de l'occupation des sols":
@@ -165,34 +163,10 @@ elif choice == "Visualisation géospatiale":
                 st.error(f"Erreur lors du chargement de la carte : {e}")
         else:
             st.warning(f"Aucune carte trouvée pour : {map_type}.")
-    
+
     st.subheader("Outils d'analyse géospatiale")
     tool = st.selectbox("Sélectionnez un outil :", ["Mesure de distance", "Calcul de superficie", "Analyse de densité"])
     st.write(f"L'outil '{tool}' sera bientôt disponible pour améliorer votre analyse géospatiale.")
-
-elif choice == "Recherche avancée":
-    st.title("Recherche avancée \U0001F50D")
-    col1, col2 = st.columns([3, 1])
-    with col1:
-        query = st.text_input("Entrez votre requête :", "Changement climatique")
-    with col2:
-        top_k = st.slider("Nombre de résultats :", 1, 10, 5)
-
-    if st.button("Rechercher"):
-        with st.spinner("Recherche en cours..."):
-            results = faiss_search(query, top_k=top_k)
-
-        if not results:
-            st.warning("Aucun résultat trouvé pour la requête.")
-        else:
-            for doc in results:
-                with st.expander(f"Source : {doc.get('source', 'Inconnue')}"):
-                    content = doc.get('content', '')
-                    if content:
-                        summary = summarize_content(content)
-                        st.write(summary)
-                    else:
-                        st.write("Contenu non disponible")
 
 elif choice == "Statistiques":
     st.title("Statistiques de recherche")
@@ -211,15 +185,15 @@ elif choice == "À propos":
     st.markdown(
         """
         **GeoSearch** est une plateforme de pointe conçue pour les chercheurs et professionnels en géomatique.
-        
+
         ### Notre mission
         Faciliter l'accès et l'analyse des données géospatiales pour accélérer la recherche et l'innovation dans le domaine des sciences de la Terre.
-        
+
         ### Technologie
         - Moteur de recherche basé sur l'IA
         - Intégration de multiples sources de données
         - Visualisation avancée des données géospatiales
-        
+
         ### Équipe
         Une équipe passionnée de data scientists, géographes et développeurs.
         """
@@ -228,5 +202,5 @@ elif choice == "À propos":
 # Pied de page
 st.sidebar.markdown("---")
 now = datetime.datetime.now()
-st.sidebar.write(f"\U0001F4C5 Date : {now.strftime('%Y-%m-%d')} | \U0001F551 Heure : {now.strftime('%H:%M')}")
-st.sidebar.info("\u00a9 2025 GeoSearch. Tous droits réservés.")
+st.sidebar.write(f"📅 Date : {now.strftime('%Y-%m-%d')} | 🕒 Heure : {now.strftime('%H:%M')}")
+st.sidebar.info("© 2025 GeoSearch. Tous droits réservés.")
