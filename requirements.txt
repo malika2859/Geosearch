@@ -1,11 +1,8 @@
 streamlit
-Pillow
-datetime
-geopandas
-folium
-streamlit-folium
-sqlalchemy
-psycopg2-binary
-elasticsearch
 langchain
-sentence-transformers
+transformers
+huggingface-hub
+numpy
+pandas
+faiss-cpu
+python-dotenv
