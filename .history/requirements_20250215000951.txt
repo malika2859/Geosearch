@@ -1,0 +1,8 @@
+streamlit
+langchain
+transformers
+huggingface-hub
+numpy
+pandas
+faiss-cpu
+python-dotenv
