@@ -1,0 +1,41 @@
+{
+    "name": "GeoSearch Development Environment",
+    "image": "mcr.microsoft.com/devcontainers/python:3.12",
+    "features": {
+      "postgresql": {
+        "version": "13"
+      }
+    },
+    "customizations": {
+      "vscode": {
+        "settings": {
+          "python.defaultInterpreterPath": "C:\\Python312\\python.exe"
+          "editor.formatOnSave": true
+        },
+        "extensions": [
+          "ms-python.python",
+          "ms-python.vscode-pylance",
+          "streetsidesoftware.code-spell-checker",
+          "esbenp.prettier-vscode",
+          "mechatroner.rainbow-csv"
+        ]
+      }
+    },
+    "postCreateCommand": "pip install -r requirements.txt",
+    "remoteUser": "vscode",
+    "mounts": [
+      "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached"
+    ],
+    "forwardPorts": [5432, 9200],
+    "containerEnv": {
+      "POSTGRES_USER": "postgres",
+      "POSTGRES_PASSWORD": "Malika2000",
+      "POSTGRES_DB": "geosearch_data",
+      "FAISS_INDEX_PATH": "/workspace/faiss_index.bin",
+      "ES_HOST": "https://localhost:9200",
+      "ES_USERNAME": "elastic",
+      "ES_PASSWORD": "4fHbHMK5UaiGY3tzqeTJ"
+    },
+    "workspaceFolder": "/workspace"
+  }
+  
