@@ -1,0 +1,155 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carte Interactive</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
+    <style>
+        body { margin: 0; padding: 0; height: 100vh; }
+        #map { width: 100%; height: 100%; }
+        .map-controls {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: white;
+            padding: 10px;
+            border-radius: 4px;
+            box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+            z-index: 1000;
+            width: 250px;
+        }
+        button {
+            padding: 5px 10px;
+            background: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <div class="map-controls">
+        <div class="control-group">
+            <h3>Fond de carte</h3>
+            <select id="baseLayerSelect">
+                <option value="osm">OpenStreetMap</option>
+                <option value="satellite">Google Satellite</option>
+                <option value="topo">OpenTopoMap</option>
+                <option value="dark">Carte Sombre</option>
+                <option value="watercolor">Stamen Watercolor</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <h3>Couches additionnelles</h3>
+            <select id="overlaySelect">
+                <option value="">Sélectionner une couche...</option>
+                <option value="opentopomap">OpenTopoMap</option>
+                <option value="openrailwaymap">OpenRailwayMap</option>
+                <option value="openseamap">OpenSeaMap</option>
+                <option value="humanitarian">Humanitarian</option>
+                <option value="transport">Transport</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <h3>Couches actives</h3>
+            <div id="activeLayers" class="layer-list"></div>
+        </div>
+        <button id="exportButton">Exporter</button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+    <script>
+        const map = L.map('map', { center: [5.35, -4.016], zoom: 13 });
+
+        const baseLayers = {
+            osm: L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap contributors' }),
+            satellite: L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { attribution: 'Esri, DigitalGlobe, GeoEye' }),
+            topo: L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', { attribution: '© OpenTopoMap' }),
+            dark: L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { attribution: '© CARTO' }),
+            watercolor: L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.jpg', { attribution: 'Stamen Design' })
+        };
+
+        const overlayLayers = {
+            opentopomap: { url: 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', attribution: '© OpenTopoMap' },
+            openrailwaymap: { url: 'https://{s}.tiles.openrailwaymap.org/standard/{z}/{x}/{y}.png', attribution: '© OpenRailwayMap' },
+            openseamap: { url: 'https://tiles.openseamap.org/seamark/{z}/{x}/{y}.png', attribution: '© OpenSeaMap' },
+            humanitarian: { url: 'https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', attribution: '© Humanitarian OpenStreetMap' },
+            transport: { url: 'https://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}.png', attribution: '© Thunderforest' }
+        };
+
+        let currentBaseLayer = baseLayers.osm.addTo(map);
+        const activeOverlays = new Map();
+
+        document.getElementById('baseLayerSelect').addEventListener('change', function(e) {
+            map.removeLayer(currentBaseLayer);
+            currentBaseLayer = baseLayers[e.target.value].addTo(map);
+        });
+
+        document.getElementById('overlaySelect').addEventListener('change', function(e) {
+            const layerId = e.target.value;
+            if (layerId && !activeOverlays.has(layerId)) {
+                const layerInfo = overlayLayers[layerId];
+                const newLayer = L.tileLayer(layerInfo.url, { attribution: layerInfo.attribution });
+                activeOverlays.set(layerId, newLayer);
+                newLayer.addTo(map);
+                updateActiveLayersList();
+            }
+            e.target.value = '';
+        });
+
+        function updateActiveLayersList() {
+            const container = document.getElementById('activeLayers');
+            container.innerHTML = '';
+            activeOverlays.forEach((layer, id) => {
+                const div = document.createElement('div');
+                div.innerHTML = `<span>${id}</span> <button onclick="removeOverlay('${id}')">×</button>`;
+                container.appendChild(div);
+            });
+        }
+
+        function removeOverlay(layerId) {
+            const layer = activeOverlays.get(layerId);
+            if (layer) {
+                map.removeLayer(layer);
+                activeOverlays.delete(layerId);
+                updateActiveLayersList();
+            }
+        }
+
+        const drawnItems = new L.FeatureGroup();
+        map.addLayer(drawnItems);
+
+        const drawControl = new L.Control.Draw({
+            draw: { polyline: true, polygon: true, circle: true, rectangle: true, marker: true },
+            edit: { featureGroup: drawnItems }
+        });
+        map.addControl(drawControl);
+
+        map.on(L.Draw.Event.CREATED, function(e) {
+            drawnItems.addLayer(e.layer);
+        });
+
+        document.getElementById('exportButton').addEventListener('click', function() {
+            const data = {
+                baseLayer: document.getElementById('baseLayerSelect').value,
+                overlays: Array.from(activeOverlays.keys()),
+                shapes: drawnItems.toGeoJSON()
+            };
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'map-data.json';
+            a.click();
+        });
+
+        L.control.zoom({ position: 'topleft' }).addTo(map);
+        L.control.scale({ position: 'bottomleft' }).addTo(map);
+    </script>
+</body>
+</html>
