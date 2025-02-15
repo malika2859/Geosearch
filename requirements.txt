@@ -242,6 +242,7 @@ keyrings.alt @ file:///C:/Users/dev-admin/perseverance-python-buildout/croot/key
 kiwisolver @ file:///C:/Users/dev-admin/perseverance-python-buildout/croot/kiwisolver_1699476425777/work
 kombu==5.4.2
 kubernetes==31.0.0
+langchain==0.3.18
 langchain-community==0.3.17
 langchain-core==0.3.35
 langchain-openai==0.2.6
@@ -384,9 +385,9 @@ pycparser @ file:///tmp/build/80754af9/pycparser_1636541352034/work
 pycryptodome==3.21.0
 pyct @ file:///C:/Users/dev-admin/perseverance-python-buildout/croot/pyct_1699542988857/work
 pycurl==7.45.2
-pydantic==1.10.21
+pydantic==2.10.6
 pydantic-settings==2.6.1
-pydantic_core==2.23.4
+pydantic_core==2.27.2
 pydeck @ file:///C:/b/abs_ad9p880wi1/croot/pydeck_1706194121328/work
 PyDispatcher @ file:///C:/Users/dev-admin/perseverance-python-buildout/croot/pydispatcher_1699543033434/work
 pydocstyle @ file:///C:/Users/dev-admin/perseverance-python-buildout/croot/pydocstyle_1699495611004/work
@@ -480,7 +481,6 @@ Scrapy @ file:///C:/b/abs_b407wrcuij/croot/scrapy_1708714755460/work
 seaborn @ file:///C:/b/abs_ca2mi1rgmn/croot/seaborn_1718303534355/work
 semver @ file:///C:/b/abs_4bkbn3v6jp/croot/semver_1709243682483/work
 Send2Trash @ file:///C:/Users/dev-admin/perseverance-python-buildout/croot/send2trash_1701806400767/work
-sentence-transformers==3.3.0
 serverfiles @ file:///C:/Users/dev-admin/perseverance-python-buildout/croot/serverfiles_1699566508733/work
 service-identity @ file:///Users/ktietz/demo/mc3/conda-bld/service_identity_1629460757137/work
 setuptools==75.8.0
@@ -550,13 +550,12 @@ tornado @ file:///C:/b/abs_7bua0304mj/croot/tornado_1718740122405/work
 tqdm @ file:///C:/b/abs_a7h7n45ccq/croot/tqdm_1716395987133/work
 traitlets @ file:///C:/b/abs_bfsnoxl4pq/croot/traitlets_1718227069245/work
 traittypes==0.2.1
-transformers==4.48.3
 truststore @ file:///C:/Users/dev-admin/perseverance-python-buildout/croot/truststore_1701881385424/work
 Twisted @ file:///C:/b/abs_e7yqd811in/croot/twisted_1708702883769/work
 twisted-iocpsupport @ file:///C:/Users/dev-admin/perseverance-python-buildout/croot/twisted-iocpsupport_1699496891011/work
 typer==0.12.5
 typing-inspect==0.9.0
-typing_extensions @ file:///C:/b/abs_0as9mdbkfl/croot/typing_extensions_1715268906610/work
+typing_extensions==4.12.2
 tzdata @ file:///croot/python-tzdata_1690578112552/work
 uc-micro-py @ file:///C:/Users/dev-admin/perseverance-python-buildout/croot/uc-micro-py_1699545612984/work
 ujson @ file:///C:/b/abs_c93a278xy4/croot/ujson_1717598062082/work
@@ -604,5 +603,3 @@ zipp @ file:///C:/Users/dev-admin/perseverance-python-buildout/croot/zipp_170749
 zope.interface @ file:///C:/Users/dev-admin/perseverance-python-buildout/croot/zope.interface_1699497164709/work
 zopfli==0.2.3.post1
 zstandard @ file:///C:/b/abs_e46tf0_91g/croot/zstandard_1714678303615/work
-langchain>=0.3.18,<1.0.0
-
