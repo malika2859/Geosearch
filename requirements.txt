@@ -5,3 +5,4 @@ numpy
 transformers
 langchain>=0.3.18,<1.0.0
 aiohttp
+python-dotenv
