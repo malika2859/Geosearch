@@ -1,9 +1,0 @@
-langchain
-faiss-cpu
-streamlit
-numpy
-pandas
-transformers
-plotly
-Pillow
-python-dotenv
