@@ -1,0 +1,12 @@
+streamlit>=1.0.0
+Pillow
+langchain
+sentence-transformers
+faiss-cpu
+python-dotenv
+plotly
+pandas
+transformers
+tf-keras
+numpy
+setuptools
