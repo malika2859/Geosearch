@@ -4,6 +4,3 @@ __pycache__/
 *.dll
 *.so
 *.lib
-*.pyd
-*.h5
-.DS_Store

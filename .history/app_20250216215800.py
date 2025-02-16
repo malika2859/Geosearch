@@ -10,6 +10,9 @@ import pandas as pd
 import streamlit as st
 from langchain.embeddings import HuggingFaceEmbeddings
 
+st.write("Langchain imported successfully!" if "langchain" in sys.modules else "Langchain NOT imported.")
+st.write("HuggingFaceEmbeddings imported successfully!" if "langchain.embeddings" in sys.modules else "HuggingFaceEmbeddings NOT imported.")
+
 # Vérification des modules critiques
 try:
     from langchain_community.embeddings import HuggingFaceEmbeddings
