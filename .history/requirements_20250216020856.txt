@@ -8,4 +8,4 @@ python-dotenv
 plotly
 langchain>=0.3.18,<1.0.0
 sentence-transformers
-faiss-cpu
+
