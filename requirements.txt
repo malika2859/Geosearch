@@ -3,8 +3,9 @@ Pillow
 pandas
 numpy
 transformers
-langchain>=0.3.18,<1.0.0
 aiohttp
 python-dotenv
 plotly
+langchain>=0.3.18,<1.0.0
+sentence-transformers
 
