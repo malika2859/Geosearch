@@ -10,7 +10,7 @@ import pandas as pd
 
 # Vérification des modules critiques
 try:
-    from langchain_community.embeddings import HuggingFaceEmbeddings
+    from langchain.embeddings import HuggingFaceEmbeddings
 except ModuleNotFoundError:
     st.error("Le module `langchain` ou `HuggingFaceEmbeddings` n'est pas installé.")
     st.stop()
