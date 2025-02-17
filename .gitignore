@@ -9,3 +9,6 @@ __pycache__/
 .DS_Storevenv/
 *.dll
 *.lib
+venv/
+venv/Lib/site-packages/torch/lib/torch_cpu.dll
+venv/Lib/site-packages/torch/lib/dnnl.lib
