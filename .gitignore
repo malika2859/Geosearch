@@ -6,4 +6,6 @@ __pycache__/
 *.lib
 *.pyd
 *.h5
-.DS_Store
+.DS_Storevenv/
+*.dll
+*.lib
