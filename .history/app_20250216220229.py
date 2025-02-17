@@ -7,6 +7,8 @@ import numpy as np
 from dotenv import load_dotenv
 import plotly.express as px
 import pandas as pd
+import streamlit as st
+from langchain.embeddings import HuggingFaceEmbeddings
 
 # Vérification des modules critiques
 try:

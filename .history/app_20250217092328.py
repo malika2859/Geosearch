@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 import plotly.express as px
 import pandas as pd
 
+
 # Vérification des modules critiques
 try:
     from langchain_community.embeddings import HuggingFaceEmbeddings
